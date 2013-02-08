@@ -60,14 +60,14 @@ if(!$fp) {
 			$_discount = get_option('wps_discount_rate');
 			$_fee = number_format(get_option('wps_fee'), 2);
 			$_blogname = get_bloginfo('name');
-			$_subject = "Shirt of the Month Club at $_blogname";
-			$_message =  "You have successfully registered to the Shirt of the Month Club at $_blogname \n\n";
+			$_title = get_option('wps_page_title');
+			$_terms = get_option('wps_terms');
+			$_subject = "$_title at $_blogname";
+			$_message =  "You have successfully registered to $_title at $_blogname \n\n";
 			$_message =  "Your subscription will expire on $_expiry \n\n";
 			$_message .= "Thank you for chosing $_blogname \n\n";
 			$_message .= "Terms and Conditions \n\n";
-			$_message .= "1. Shirt of the month club is for 12 months.  Participants will recieve a $_discount % discount and free shipping on one shirt per month.\n";
-			$_message .= "2. Participant can stop participating at any time but the $ $_fee sign up fee is non-refundable.\n";
-			$_message .= "3. Cannot be combined with other coupons or discounts.";	
+			$_message .= "$_terms\n";
 			wp_mail($_user->user_email, $_subject, $_message);			
 		} else if(strcmp ($res, "INVALID") == 0) { 
 			update_user_meta($_user_id, 'wps-enabled', '2');

@@ -27,11 +27,13 @@ function wps_register_form() {
 		$paypal_url = "www.paypal.com";
 		if(get_option('wps_paypal_testing')=='yes') {
 			$paypal_url = "www.sandbox.paypal.com";
-		}		
+		}
+
+		$_wps_title = get_option('wps_page_title');
 		
 		$_paypal_form = "
 			<form action='https://$paypal_url/cgi-bin/webscr' method='post' class='standard-form'>
-				<input type='hidden' name='item_name' value='Subscription to Shirt of the Month Club' />
+				<input type='hidden' name='item_name' value='$_wps_title' />
 				<input type='hidden' name='item_number' value='wps' />
 				<input type='hidden' name='custom' value='$_wps_user_id' />
 				<input type='hidden' name='amount' value='$_wps_fee' />
@@ -45,7 +47,7 @@ function wps_register_form() {
 				<input type='hidden' name='cancel_return' value='$_wps_page' />
 				<input type='hidden' name='notify_url' value='$_wps_notify_page' />";
 		
-		$_wps_label = "Subscribe/Renew Subscription to the Shirt of the Month Club";
+		$_wps_label = "Subscribe/Renew Subscription to $_wps_title";
 		if(!$_wps_enabled) {
 			$_wps_form =  $_paypal_form . $_wps_register_button . "</form>";
 		} else if($_wps_enabled == 2) {
@@ -55,7 +57,7 @@ function wps_register_form() {
 			$_wps_label = "Your subscription has expired on " .  date('m/d/Y', $_wps_datetime_expiry);
 			$_wps_form =  $_paypal_form . $_wps_register_button . "</form>";
 		} else {
-			$_wps_label = "Unsubscribe to the Shirt of the Month Club";
+			$_wps_label = "Unsubscribe to the $_wps_title";
 			$_wps_form =  $_wps_unsubscribe_button;
 		}		
 	?>
@@ -169,13 +171,3 @@ if(is_user_logged_in()) {
 	wps_user_login_register_form();
 }
 ?>
-
-<hr />
-<fieldset>
-	<legend> * Terms and Conditions</legend>
-	<ol>
-		<li>Shirt of the month club is for 12 months.  Participants will recieve a <?php echo get_option('wps_discount_rate'); ?> % discount and free shipping on one shirt per month. </li>
-		<li>Participant can stop participating at any time but the $ <?php echo number_format(get_option('wps_fee'), 2); ?> sign up fee is non-refundable.</li>
-		<li>Cannot be combined with other coupons or discounts.</li>
-	</ol>
-</fieldset>

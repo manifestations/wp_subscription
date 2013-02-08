@@ -7,6 +7,10 @@
 	<?php do_settings_fields('wps-group'); ?>
 		<table class="form-table">
 			<tr valign="top">
+				<th scope="row">Page Title</th>
+				<td><input type="text" name="wps_paypal_id" value="<?php echo get_option('wps_page_title'); ?>" /></td>
+			</tr>		
+			<tr valign="top">
 				<th scope="row">PayPal ID</th>
 				<td><input type="text" name="wps_paypal_id" value="<?php echo get_option('wps_paypal_id'); ?>" /></td>
 			</tr>

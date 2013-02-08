@@ -1,8 +1,8 @@
 <?php
 	/*
-	Plugin Name: T-Shirt of the Month
-	Plugin URI: http://glitzandglambypam.com
-	Description: Plugin for the T-Shirt of the Month plugin for wooCommerce
+	Plugin Name: Wordpress Subscription
+	Plugin URI: http://meita.in
+	Description: Plugin for Wordpress Subscription with PayPal 
 	Author: wibby
 	Version: 1.0
 	Author URI: http://meita.in
@@ -64,6 +64,7 @@ function wps_remove() {
 }
 
 function wps_settings() {
+	register_setting('wps-group', 'wps_page_title');
     register_setting('wps-group', 'wps_paypal_id');
     register_setting('wps-group', 'wps_fee', 'intval');
     register_setting('wps-group', 'wps_recaptcha_public');
@@ -160,7 +161,8 @@ function wps_registration() {
 						$creds['remember'] = true;
 						$user = wp_signon( $creds, false );
 						$_blogname = get_bloginfo('name');
-						$_subject = "Registration to $_blogname";					
+						$_title = get_option('wps_page_title');
+						$_subject = "Registration to $_title at $_blogname";					
 						$_message =  "$_blogname Registration Successful!\n\n";
 						$_message .= "You are now successfully registered to $_blogname \n\n";
 						$_message .= "Here are you login details:\n\n";
@@ -229,8 +231,9 @@ function wps_unsubscribe() {
 		update_user_meta($_user_id, 'wps-enabled', '');
 		$_expiry = date("m/d/Y", strtotime("+12 months", time()));
 		$_blogname = get_bloginfo('name');
+		$_title = get_option('wps_page_title');
 		$_subject = "Shirt of the Month Club at $_blogname";
-		$_message =  "You have been successfully unregistered from the Shirt of the Month Club at $_blogname \n\n";
+		$_message =  "You have been successfully unregistered from $_title at $_blogname \n\n";
 		$_message =  "Please contact the site admin if this happened by error.\n\n";
 		$_message .= "Thank you for chosing $_blogname \n\n";
 		$_message .= "Terms and Conditions \n\n";
